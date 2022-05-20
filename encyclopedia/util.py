@@ -17,7 +17,7 @@ def save_entry(title, content):
     """
     Saves an encyclopedia entry, given its title and Markdown
     content. If an existing entry with the same title already exists,
-    it is replaced.
+    it is replaced(doesn't matter the case/ case insensitive).
     """
     filename = f"entries/{title}.md"
     if default_storage.exists(filename):
@@ -35,3 +35,5 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+    

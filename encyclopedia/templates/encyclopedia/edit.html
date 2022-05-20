@@ -1,0 +1,22 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Edit Page
+{% endblock %}
+
+
+
+{% block body %}
+    <h1 class="mb-4">Create a new entry</h1>
+    {# When you are on a path containing a variable, the current path is considered as if there is no variables in this case the current path would be 'wiki/edit/'#}
+    {#In form submit, the action url should be extra careful. the current url is 'wiki/edit/' so when doing post request to this same url path, the only query parameter is the variable one so just title would be enough#}
+    <form action="{{ title }}" method="post">
+      {% csrf_token %}
+      <div class="mycontainer">
+        <input class="title mb-3 w-80" type="text" name="title" placeholder="title" value="{{title}}">
+        <textarea class="mb-3" name="content" rows="4" placeholder="Content goes here..." >{{ content }}</textarea>
+        <input type="submit">
+      </div>
+    </form>
+    
+{% endblock %}    

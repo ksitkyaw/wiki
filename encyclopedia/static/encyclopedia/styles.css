@@ -36,3 +36,18 @@ textarea {
 .sidebar h2 {
     margin-top: 5px;
 }
+
+/*styles for create new entry page
+press ctrl + f5 if new changes to css file is not updated even though you reload or restart the server */
+.mycontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    width: 80%;
+    height: 3rem;
+    font-size: 1.5rem;
+}

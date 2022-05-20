@@ -1,0 +1,11 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block body %}
+    {# the below syntax lets you render html tags not as a string but as actual html #}
+    {{ content|safe }}
+    <a class="btn btn-secondary" href="{% url 'edit' title %}">Edit</a>
+{% endblock %}
