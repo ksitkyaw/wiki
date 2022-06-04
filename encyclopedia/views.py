@@ -1,3 +1,5 @@
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from . import util
@@ -14,12 +16,8 @@ def index(request):
         for entry in entries:
             #if data matches any of the existing  entries, the entry.html is rendered
             if data.lower() == entry.lower(): #lower function used for case insensitivity
-                content = util.get_entry(entry)
-                htmlcontent=markdown2.markdown(content) #this convert markdown to html tags
-                return render(request, "encyclopedia/entry.html", {
-                    "content": htmlcontent,
-                    "title": entry
-                })
+                return HttpResponseRedirect(reverse('entry', args=(entry,)))
+            
             #this case is take place if data is a substring of any existing entry
             elif data.lower() in entry.lower():
                 searchresults= []
@@ -65,10 +63,7 @@ def create(request):
                 })
         #if not, the new page is created and saved in entries directory too
         util.save_entry(title, content)
-        return render(request, "encyclopedia/entry.html", {
-            "content": markdown2.markdown(content),
-            "title": title
-        })
+        return HttpResponseRedirect(reverse('entry', args=(title,)))
     #this is for get requests
     return render(request, "encyclopedia/create.html")
 
@@ -79,10 +74,7 @@ def edit(request, title):
         newcontent = request.POST['content']
         util.save_entry(title, newcontent)
         #It just save the new content from the post request.the title can't be changed
-        return render(request, "encyclopedia/entry.html", {
-            "content": markdown2.markdown(newcontent),
-            "title": title
-        })
+        return HttpResponseRedirect(reverse('entry', args=(title,)))
     
     return render(request, "encyclopedia/edit.html", {
         "title": title,
@@ -93,10 +85,5 @@ def randompage(request):
     entries=util.list_entries()
     rand = random.randint(0, len(entries)-1) #pick a random integer
     entrytitle = entries[rand] #using the random integer as index, a random entry is picked
-    content = util.get_entry(entrytitle)
-    htmlcontent=markdown2.markdown(content)
-    #render entry.html with content from above random entry
-    return render(request, "encyclopedia/entry.html", {
-        "title": entrytitle,
-        "content": htmlcontent
-    })
+    #redirect to the entry url with random entrytitle as args
+    return HttpResponseRedirect(reverse('entry', args=(entrytitle,)))
